@@ -1,5 +1,4 @@
 import 'package:covid19/constant.dart';
-import 'package:covid19/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -40,12 +39,7 @@ class _InfoScreenState extends State<InfoScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            MyHeader(
-              image: "assets/icons/coronadr.svg",
-              textTop: "Get to know",
-              textBottom: "About Covid-19.",
-              offset: offset,
-            ),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(

@@ -5,10 +5,9 @@ import 'package:covid19/network/Api.dart';
 import 'package:covid19/widgets/Drawer.dart';
 import 'package:covid19/widgets/MostAffected.dart';
 import 'package:covid19/widgets/counter.dart';
-import 'package:covid19/widgets/my_header.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,24 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final controller = ScrollController();
   double offset = 0;
   var api = Api();
-  bool is_connected = false;
-
-  CheckInternet() async {
-    DataConnectionChecker().onStatusChange.listen((status) {
-      switch (status) {
-        case DataConnectionStatus.connected:
-          is_connected = true;
-          break;
-        case DataConnectionStatus.disconnected:
-          is_connected = false;
-          break;
-      }
-    });
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    CheckInternet();
     super.initState();
     controller.addListener(onScroll);
   }
@@ -69,17 +54,73 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      key: _scaffoldKey,
       drawer: MyDrawer(),
       body: SingleChildScrollView(
         controller: controller,
         child: Column(
           children: <Widget>[
-            MyHeader(
-              image: "assets/icons/Drcorona.svg",
-              textTop: "All you need",
-              textBottom: "is stay at home.",
-              offset: offset,
+            Container(
+              padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+              height: 350,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(18.0),
+                    bottomRight: Radius.circular(18.0)),
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color(0xFF3383CD),
+                    Color(0xFF11249F),
+                  ],
+                ),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/virus.png"),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Align(
+                    child: GestureDetector(
+                      onTap: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
+                       child: SvgPicture.asset("assets/icons/menu.svg"),
+                    ),
+                    alignment: Alignment.topLeft,
+                  ),
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: (offset < 0) ? 0 : offset,
+                          child: SvgPicture.asset(
+                            "assets/icons/Drcorona.svg",
+                            width: 230,
+                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                        Positioned(
+                          top: 20 - offset / 2,
+                          left: 150,
+                          child: Text(
+                            "Covid 19\nstatistics all the world",
+                            style: kHeadingTextStyle.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Container(), // I dont know why it can't work without container
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             Padding(

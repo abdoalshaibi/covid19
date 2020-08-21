@@ -12,8 +12,10 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
             decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/Covid19banner.png"),
+                  fit: BoxFit.fill),
               color: Colors.blue,
             ),
           ),
