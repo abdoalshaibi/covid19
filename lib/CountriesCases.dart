@@ -2,6 +2,7 @@ import 'package:covid19/model/Counties.dart';
 import 'package:covid19/network/Api.dart';
 import 'package:covid19/searchPage.dart';
 import 'package:covid19/widgets/Drawer.dart';
+import 'package:covid19/widgets/countriesData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -52,6 +53,8 @@ class _CountriesCasesState extends State<CountriesCases> {
           : SingleChildScrollView(
               controller: controller,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(left: 40, top: 50, right: 20),
@@ -148,9 +151,32 @@ class _CountriesCasesState extends State<CountriesCases> {
                       ],
                     ),
                   ),
-                  /*Container(
-                    child: CountriesData(countryData),
-                  )*/
+                  Container(
+                    height: MediaQuery.of(context).size.height-350,
+                    child: FutureBuilder<List<Counties>>(
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemBuilder: (context, i) {
+                              return CountriesData(
+                                  snapshot.data[i].country,
+                                  snapshot.data[i].cases,
+                                  snapshot.data[i].active,
+                                  snapshot.data[i].recovered,
+                                  snapshot.data[i].deaths,
+                                  snapshot.data[i].countryInfo.flag,
+                                  context);
+                            },
+                            itemCount: 5,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return CircularProgressIndicator();
+                      },
+                      future: countryData,
+                    ),
+                  ),
                 ],
               ),
             ),
