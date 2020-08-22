@@ -99,7 +99,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               Positioned(
                                 top: (offset < 0) ? 0 : offset,
                                 child: SvgPicture.asset(
-                                  "",
+                                  "assets/icons/coronadr.svg",
                                   width: 230,
                                   fit: BoxFit.fitWidth,
                                   alignment: Alignment.topCenter,

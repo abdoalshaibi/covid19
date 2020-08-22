@@ -58,7 +58,7 @@ class _CountriesCasesState extends State<CountriesCases> {
                     [
                       Container(
                         padding: EdgeInsets.only(left: 40, top: 50, right: 20),
-                        height: 350,
+                        height:270,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -128,17 +128,17 @@ class _CountriesCasesState extends State<CountriesCases> {
                                   Positioned(
                                     top: (offset < 0) ? 0 : offset,
                                     child: SvgPicture.asset(
-                                      "",
-                                      width: 230,
+                                      "assets/icons/maps.svg",
+                                      width: 200,
                                       fit: BoxFit.fitWidth,
                                       alignment: Alignment.topCenter,
                                     ),
                                   ),
                                   Positioned(
                                     top: 20 - offset / 2,
-                                    left: 150,
+                                    left: 170,
                                     child: Text(
-                                      " \n",
+                                      "Covid 19 \n Countries statistics",
                                       style: kHeadingTextStyle.copyWith(
                                         color: Colors.white,
                                       ),

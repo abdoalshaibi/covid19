@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         _scaffoldKey.currentState.openDrawer();
                       },
-                       child: SvgPicture.asset("assets/icons/menu.svg"),
+                       child:Icon(Icons.menu,color: Colors.white,)
                     ),
                     alignment: Alignment.topLeft,
                   ),
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           top: 20 - offset / 2,
                           left: 150,
                           child: Text(
-                            "Covid 19\nstatistics all the world",
+                            "Covid 19\n General Statistics ",
                             style: kHeadingTextStyle.copyWith(
                               color: Colors.white,
                             ),

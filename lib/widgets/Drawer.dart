@@ -2,19 +2,20 @@ import 'package:covid19/CountriesCases.dart';
 import 'package:covid19/info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
+import 'package:async/async.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/Covid19banner.png"),
+                  image: AssetImage("assets/images/Covid19banner.jpg"),
                   fit: BoxFit.fill),
               color: Colors.blue,
             ),
@@ -46,9 +47,10 @@ class MyDrawer extends StatelessWidget {
                 ),
               );
             },
-          )
+          ),
         ],
       ),
     );
   }
+
 }
