@@ -1,4 +1,5 @@
 import 'package:covid19/constant.dart';
+import 'package:covid19/widgets/Drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,6 +11,7 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   final controller = ScrollController();
   double offset = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -34,66 +36,156 @@ class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        controller: controller,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Symptoms",
-                    style: kTitleTextstyle,
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        key: _scaffoldKey,
+        drawer: MyDrawer(),
+        body: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+                    height: 350,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(18.0),
+                          bottomRight: Radius.circular(18.0)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xFF82B1FF),
+                          Color(0xFF2962FF),
+                        ],
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/virus.png"),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        SymptomCard(
-                          image: "assets/images/headache.png",
-                          title: "Headache",
-                          isActive: true,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              alignment: Alignment.topLeft,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _scaffoldKey.currentState.openDrawer();
+                              },
+                              child: Icon(
+                                Icons.menu,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
                         ),
-                        SymptomCard(
-                          image: "assets/images/caugh.png",
-                          title: "Cough",
-                        ),
-                        SymptomCard(
-                          image: "assets/images/fever.png",
-                          title: "Fever",
+                        SizedBox(height: 20),
+                        Expanded(
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                top: (offset < 0) ? 0 : offset,
+                                child: SvgPicture.asset(
+                                  "",
+                                  width: 230,
+                                  fit: BoxFit.fitWidth,
+                                  alignment: Alignment.topCenter,
+                                ),
+                              ),
+                              Positioned(
+                                top: 20 - offset / 2,
+                                left: 150,
+                                child: Text(
+                                  " \n",
+                                  style: kHeadingTextStyle.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Container(), // I dont know why it can't work without container
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text("Prevention", style: kTitleTextstyle),
-                  SizedBox(height: 20),
-                  PreventCard(
-                    text:
-                        "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
-                    image: "assets/images/wear_mask.png",
-                    title: "Wear face mask",
+                  SizedBox(
+                    height: 20.0,
                   ),
-                  PreventCard(
-                    text:
-                        "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
-                    image: "assets/images/wash_hands.png",
-                    title: "Wash your hands",
+                  Column(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Symptoms",
+                              style: kTitleTextstyle,
+                            ),
+                            SizedBox(height: 20),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  SymptomCard(
+                                    image: "assets/images/headache.png",
+                                    title: "Headache",
+                                    isActive: true,
+                                  ),
+                                  SymptomCard(
+                                    image: "assets/images/caugh.png",
+                                    title: "Cough",
+                                  ),
+                                  SymptomCard(
+                                    image: "assets/images/fever.png",
+                                    title: "Fever",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Text("Prevention", style: kTitleTextstyle),
+                            SizedBox(height: 20),
+                            PreventCard(
+                              text:
+                                  "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
+                              image: "assets/images/wear_mask.png",
+                              title: "Wear face mask",
+                            ),
+                            PreventCard(
+                              text:
+                                  "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
+                              image: "assets/images/wash_hands.png",
+                              title: "Wash your hands",
+                            ),
+                            SizedBox(height: 50),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(height: 50),
                 ],
               ),
-            )
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
 

@@ -68,8 +68,8 @@ class _CountriesCasesState extends State<CountriesCases> {
                             begin: Alignment.topRight,
                             end: Alignment.bottomLeft,
                             colors: [
-                              Color(0xFF3383CD),
-                              Color(0xFF11249F),
+                              Color(0xFF82B1FF),
+                              Color(0xFF2962FF),
                             ],
                           ),
                           image: DecorationImage(
@@ -157,22 +157,25 @@ class _CountriesCasesState extends State<CountriesCases> {
                 FutureBuilder<List<Counties>>(
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                    return SliverList(
-                          delegate: SliverChildBuilderDelegate((context, i) {
-                        return CountriesData(
-                            snapshot.data[i].country,
-                            snapshot.data[i].cases,
-                            snapshot.data[i].active,
-                            snapshot.data[i].recovered,
-                            snapshot.data[i].deaths,
-                            snapshot.data[i].countryInfo.flag,
-                            context);
-                      }, childCount: snapshot.data.length));
-
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate((context, i) {
+                          return CountriesData(
+                              snapshot.data[i].country,
+                              snapshot.data[i].cases,
+                              snapshot.data[i].active,
+                              snapshot.data[i].recovered,
+                              snapshot.data[i].deaths,
+                              snapshot.data[i].countryInfo.flag,
+                              context);
+                        }, childCount: snapshot.data.length),
+                      );
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return SliverToBoxAdapter(child: CircularProgressIndicator(),);
+                    return
+                         SliverToBoxAdapter(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   },
                   future: countryData,
                 ),

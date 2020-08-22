@@ -72,8 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors: [
-                    Color(0xFF3383CD),
-                    Color(0xFF11249F),
+                    Color(0xFF82B1FF),
+                    Color(0xFF2962FF),
                   ],
                 ),
                 image: DecorationImage(
